@@ -1,12 +1,34 @@
 class Traveler {
     constructor(name){
-        this.name = name
-        this.food = 1
-        this.isHealthy = true
+        this._name = name
+        this._food = 1
+        this._isHealthy = true
     }
 
+    set name(name){
+        this._name = name
+    }
+    get name(){
+        return this._name
+    }
+
+    set food(food){
+        this._food = food
+    }
+    get food(){
+        return this._food
+    }
+
+    set isHealthy(isHealthy){
+        this._isHealthy = isHealthy
+    }
+    get isHealthy(){
+        return this._isHealthy
+    }
+
+
     hunt(){
-        this.food += 2
+        return this.food += 2
     }
 
     eat(){
@@ -15,40 +37,70 @@ class Traveler {
             this.isHealthy = true
         }
         else{
-            this.isHealthy = false
+            return this.isHealthy = false
         }
     }
 }
 
 class Wagon{
     constructor(capacity){
-        this.capacity = capacity
-        this.lista = []
+        this._capacity = capacity
+        this._list = []
     }
+
+    set capacity(capacity){
+        this._capacity = capacity
+    }
+    get capacity(){
+        return this._capacity
+    }
+
+    set list(list){
+        this._list = list
+    }
+    get list(){
+        return this._list
+    }
+
 
     getAvailableSeatCount(){
-        return this.capacity - this.lista.length
+        return this.capacity - this.list.length
     }
 
-    join(){
-        if(this.capacity > this.lista.length){
-            this.lista.push('qualquer')
-            console.log(this)
+    join(name){
+        if(this.capacity > this.list.length){
+            this.list.push(name)
         }
         else{
             return `Carroça já está cheia`
         }
     }
     
-    shouldQuarantine(){
-        if(this.isHealthy === false){
-            return true
+    shouldQuarantine(isHealthy){
+
+        this.list.forEach(pessoa =>{
+            if(!pessoa.isHealthy){
+                isHealthy = false
+            }
+        })
+        if(isHealthy){
+            return false
         }
-        return false
+        return true
+
     }
 
     totalFood(){
-        return this.food
+        let comidaVillager = []
+        let totalcomida = 0
+
+        this.list.forEach(pessoa =>{
+            comidaVillager.push(pessoa.food)
+        })
+
+        totalcomida = comidaVillager.reduce((acc, curr) => acc+curr)
+
+        return totalcomida
     }
 }
 
